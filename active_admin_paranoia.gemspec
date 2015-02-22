@@ -7,8 +7,8 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
   gem.authors       = ['Miah Raihan Mahmud Arman']
   gem.email         = ['raihan2006i@gmail.com']
-  gem.description   = %q{This gem extends ActiveAdmin so that batch restore and batch archive actions will be available in index page}
-  gem.summary       = %q{Paranoia in ActiveAdmin}
+  gem.description   = %q{This gem extends ActiveAdmin so that batch restore and batch archive actions will be available in resource index page. Also 'All' and 'Archived' scope will be available for resource index page. 'All' scope will show non archived resources and 'Archived' scope will show deleted or archived resources.}
+  gem.summary       = %q{Paranoia extension for ActiveAdmin}
   gem.homepage      = 'https://github.com/raihan2006i/active_admin_paranoia'
 
   gem.files         = `git ls-files`.split($/)
