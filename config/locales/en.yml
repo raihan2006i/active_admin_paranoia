@@ -17,4 +17,5 @@ en:
         one: "Successfully restored 1 %{model}"
         other: "Successfully restored %{count} %{plural_model}"
     archived: "Archived"
+    non_archived: "Non Archived"
     something_wrong: "Something went wrong. Please try again"

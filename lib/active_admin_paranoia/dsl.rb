@@ -21,13 +21,11 @@ module ActiveAdminParanoia
       end
 
       batch_action :restore, confirm: proc{ I18n.t('active_admin_paranoia.batch_actions.restore_confirmation', plural_model: resource_class.to_s.downcase.pluralize) }, if: proc{ authorized?(ActiveAdminParanoia::Auth::RESTORE, resource_class) && params[:scope].present? && params[:scope] == 'archived' } do |ids|
-        ids.each do |id|
-          resource_class.to_s.camelize.constantize.restore(id)
-        end
+        resource_class.to_s.camelize.constantize.restore(ids, recursive: true)
         redirect_to :back, notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: ids.count, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize)
       end
 
-      scope :all, default: true
+      scope(I18n.t('active_admin_paranoia.non_archived'), default: true) { |scope| scope.unscoped.where(resource_class.to_s.camelize.constantize.paranoia_column => resource_class.to_s.camelize.constantize.paranoia_sentinel_value) }
       scope(I18n.t('active_admin_paranoia.archived')) { |scope| scope.unscoped.where.not(resource_class.to_s.camelize.constantize.paranoia_column => resource_class.to_s.camelize.constantize.paranoia_sentinel_value) }
     end
   end
