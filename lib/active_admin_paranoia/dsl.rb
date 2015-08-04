@@ -8,7 +8,7 @@ module ActiveAdminParanoia
 
         def action_methods
           if params[:scope] == 'archived'
-            %w(index)
+            %w(index batch_action)
           else
             super
           end
