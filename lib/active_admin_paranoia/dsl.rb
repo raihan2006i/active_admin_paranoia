@@ -5,14 +5,6 @@ module ActiveAdminParanoia
         def find_resource
           resource_class.to_s.camelize.constantize.with_deleted.where(id: params[:id]).first!
         end
-
-        def action_methods
-          if params[:scope] == 'archived'
-            %w(index batch_action)
-          else
-            super
-          end
-        end
       end
 
       batch_action :destroy, confirm: proc{ I18n.t('active_admin.batch_actions.delete_confirmation', plural_model: resource_class.to_s.downcase.pluralize) }, if: proc{ authorized?(ActiveAdmin::Auth::DESTROY, resource_class) && params[:scope] != 'archived' } do |ids|
