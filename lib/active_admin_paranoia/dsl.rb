@@ -3,15 +3,7 @@ module ActiveAdminParanoia
     def active_admin_paranoia
       controller do
         def find_resource
-          resource_class.to_s.camelize.constantize.unscoped.where(id: params[:id]).first!
-        end
-
-        def action_methods
-          if params[:scope] == 'archived'
-            %w(index batch_action)
-          else
-            super
-          end
+          resource_class.to_s.camelize.constantize.with_deleted.where(id: params[:id]).first!
         end
       end
 
