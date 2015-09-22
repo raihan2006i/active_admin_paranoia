@@ -5,7 +5,7 @@ This gem extends ActiveAdmin so that batch restore and batch archive actions wil
 This gem assumes that you have already configured [paranoia](https://github.com/radar/paranoia) for you desire resource. Add this line to your application's Gemfile:
 
 ```ruby
-gem "active_admin_paranoia" , '~> 1.0.6'
+gem "active_admin_paranoia" , '~> 1.0.7'
 
 ```
 
