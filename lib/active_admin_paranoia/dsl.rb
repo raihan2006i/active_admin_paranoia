@@ -17,8 +17,35 @@ module ActiveAdminParanoia
         redirect_to :back, notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: ids.count, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize)
       end
 
+      member_action :restore, method: :put, confirm: proc{ I18n.t('active_admin_paranoia.restore_confirmation') }, if: proc{ authorized?(ActiveAdminParanoia::Auth::RESTORE, resource_class) } do
+        resource.restore
+        redirect_to :back, notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: 1, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize)
+      end
+
       scope(I18n.t('active_admin_paranoia.non_archived'), default: true) { |scope| scope.where(resource_class.to_s.camelize.constantize.paranoia_column => resource_class.to_s.camelize.constantize.paranoia_sentinel_value) }
       scope(I18n.t('active_admin_paranoia.archived')) { |scope| scope.unscope(:where => resource_class.to_s.camelize.constantize.paranoia_column).where.not(resource_class.to_s.camelize.constantize.paranoia_column => resource_class.to_s.camelize.constantize.paranoia_sentinel_value) }
+    end
+  end
+end
+
+module ActiveAdmin
+  module Views
+    class IndexAsTable < ActiveAdmin::Component
+      class IndexTableFor < ::ActiveAdmin::Views::TableFor
+        alias_method :orig_defaults, :defaults
+
+        def defaults(resource, options = {})
+          if resource.deleted?
+            if controller.action_methods.include?('restore') && authorized?(ActiveAdminParanoia::Auth::RESTORE, resource_class)
+              # TODO: find a way to use the correct path helper
+              item I18n.t('active_admin_paranoia.restore'), "#{resource_path(resource)}/restore", method: :put, class: "restore_link #{options[:css_class]}",
+                data: {confirm: I18n.t('active_admin_paranoia.restore_confirmation')}
+            end
+          else
+            orig_defaults(resource, options)
+          end
+        end
+      end
     end
   end
 end
