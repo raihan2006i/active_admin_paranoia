@@ -18,7 +18,7 @@ module ActiveAdminParanoia
       end
 
       member_action :restore, method: :put, confirm: proc{ I18n.t('active_admin_paranoia.restore_confirmation') }, if: proc{ authorized?(ActiveAdminParanoia::Auth::RESTORE, resource_class) } do
-        resource.restore
+        resource.restore(recursive: true)
         redirect_to :back, notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: 1, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize)
       end
 
