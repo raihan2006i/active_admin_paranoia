@@ -18,6 +18,7 @@ en:
         other: "Successfully restored %{count} %{plural_model}"
     archived: "Archived"
     non_archived: "Non Archived"
+    restore_model: "Restore %{model}"
     restore: "Restore"
     restore_confirmation: "Are you sure you want to restore this?"
     something_wrong: "Something went wrong. Please try again"
