@@ -18,5 +18,6 @@ And then execute:
 ```ruby
 ActiveAdmin.register Post do
   active_admin_paranoia
+  actions :all, :except => [:destroy]
 end
 ```
