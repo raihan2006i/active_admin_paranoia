@@ -1,17 +1,13 @@
 en:
-  active_admin:
-    delete_model: "Archive %{model}"
-    delete: "Archive"
-    delete_confirmation: "Are you sure you want to archive this?"
+  active_admin_paranoia:
+    archive_model: "Archive %{model}"
+    archive: "Archive"
+    archive_confirmation: "Are you sure you want to archive this?"
     batch_actions:
-      delete_confirmation: "Are you sure you want to archive these %{plural_model}?"
-      succesfully_destroyed:
+      archive_confirmation: "Are you sure you want to archive these %{plural_model}?"
+      succesfully_archived:
         one: "Successfully archived 1 %{model}"
         other: "Successfully archived %{count} %{plural_model}"
-      labels:
-        destroy: "Archive"
-  active_admin_paranoia:
-    batch_actions:
       restore_confirmation: "Are you sure you want to restore these %{plural_model}?"
       succesfully_restored:
         one: "Successfully restored 1 %{model}"
