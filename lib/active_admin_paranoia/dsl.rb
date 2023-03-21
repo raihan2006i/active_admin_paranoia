@@ -12,7 +12,8 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin.batch_actions.succesfully_destroyed', count: ids.count, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(options))
+          args = { fallback_location: ActiveAdmin.application.root_to }.merge(options)
+          redirect_back(**args)
         else
           redirect_to :back, options
         end
@@ -23,10 +24,15 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: ids.count, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(options))
+          args = { fallback_location: ActiveAdmin.application.root_to }.merge(options)
+          redirect_back(**args)
         else
           redirect_to :back, options
         end
+      end
+
+      action_item :restore, only: :show do
+        link_to(I18n.t('active_admin_paranoia.restore_model', model: resource_class.to_s.titleize), "#{resource_path(resource)}/restore", method: :put, data: { confirm: I18n.t('active_admin_paranoia.restore_confirmation') }) if authorized?(ActiveAdminParanoia::Auth::RESTORE, resource)
       end
 
       member_action :restore, method: :put, confirm: proc{ I18n.t('active_admin_paranoia.restore_confirmation') }, if: proc{ authorized?(ActiveAdminParanoia::Auth::RESTORE, resource_class) } do
@@ -34,7 +40,8 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: 1, model: resource_class.to_s.camelize.constantize.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(options))
+          args = { fallback_location: ActiveAdmin.application.root_to }.merge(options)
+          redirect_back(**args)
         else
           redirect_to :back, options
         end
